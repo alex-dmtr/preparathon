@@ -3,10 +3,11 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha')
 
 gulp.task('test', function() {
-    gulp.src('./test/**')
+    return gulp.src('./test/**')
         .pipe(mocha())
+        
 })
-gulp.task('default', ['test'], function() {
+gulp.task('default', function() {
     nodemon({
         script: 'server.js',
         ext: 'js',
@@ -14,6 +15,7 @@ gulp.task('default', ['test'], function() {
             PORT: 3000
         },
         ignore: ['./node_modules/**'],
-        tasks: ['test']
+        // tasks: ['test'],
+        quiet: true
     })
 })
