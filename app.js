@@ -4,11 +4,11 @@ var app = express()
 
 var router = express.Router()
 
-router.route('/')
+router.route('/test')
     .get(function(req, res) {
         res.status(200).send('Hello world!')
     })
-    
+
 app.get('/', function(req, res) {
     res.status(200).json({
         api: '/api'
