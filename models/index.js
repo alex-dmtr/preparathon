@@ -1,8 +1,7 @@
 var Sequelize = require('sequelize')
 
-
-var sequelize = new Sequelize('roadmap', 'postgres', 'password', {
-    host: 'localhost',
+var sequelize = new Sequelize('roadmap', process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
     dialect: 'postgres',
 
     pool: {

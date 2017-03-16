@@ -18,7 +18,7 @@ exports.postAuth = function(req, res) {
 
             if (req.body.password == result.password)
             {
-                var token = jwt.sign({username: result.username, id: result.id}, "secret")
+                var token = jwt.sign({username: result.username, id: result.id}, process.env.JWT_SECRET)
                 res.status(200).json({jwt:token})
             }
             else

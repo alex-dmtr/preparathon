@@ -1,9 +1,17 @@
+require('dotenv').config()
+/*
+    Add following environment variables in .env:
+    DB_HOST
+    DB_USERNAME
+    DB_PASSWORD
+    JWT_SECRET
+*/
+
 var express = require('express')
 var bodyParser = require('body-parser')
 var expressJwt = require('express-jwt')
-var jwt = require('jsonwebtoken')
-const secret = 'secret'
 
+var jwt = require('jsonwebtoken')
 var app = express()
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -29,9 +37,9 @@ router.route('/users')
 
 // Add endpoints for /api/users/{userId}
 router.route('/users/:userId')
-    .put(expressJwt({secret}), usersController.putUser)
-    .delete(expressJwt({secret}), usersController.deleteUser)
-    .get(expressJwt({secret}), usersController.getUser)
+    .put(expressJwt({secret: process.env.JWT_SECRET}), usersController.putUser)
+    .delete(expressJwt({secret: process.env.JWT_SECRET}), usersController.deleteUser)
+    .get(expressJwt({secret: process.env.JWT_SECRET}), usersController.getUser)
 
 app.get('/', function(req, res) {
     res.status(200).json({
