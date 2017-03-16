@@ -1,17 +1,17 @@
 var request = require('supertest')
 var app = require('../app')
 var assert = require('assert')
-var models = require('../models')
+var db = require('../models')
 
-context('DB', function() {
+before('DB', function() {
     it('should connect to DB', function() {
-        return models
+        return db
             .authenticate()
     })
 
     it('should sync tables', function() {
-        return models
-            .sync({force:false})
+        return db
+            .sync({force:true})
     })
 
 })
@@ -44,7 +44,9 @@ context('API', function() {
                 .end(function(err, res) {
                     if (err) return done(err)
 
-                    user.id = res.id
+                    user.id = res.body.id
+                    
+                    done()
                 })
         }) 
 
@@ -53,8 +55,10 @@ context('API', function() {
             request(app)
                 .get(`/api/users/${user.id}`)
                 .expect(200)
-                .end(function(err, res) {
+                .end(function(err, result) {
                     if (err) return done(err)
+
+                    let res = result.body
 
                     assert.equal(user.username, res.username)
                     assert.equal(user.email, res.email)
@@ -74,7 +78,16 @@ context('API', function() {
             request(app)
                 .put(`/api/users/${user.id}`)
                 .send(user)
-                .expect(200, done)
+                .expect(200)
+                .end(function(err, result) {
+                    if (err) return done(err)
+
+                    let res = result.body
+
+                    assert.equal(user.email, res.email)
+
+                    done()
+                })
         })
 
         it('should delete the user', function(done) {

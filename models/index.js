@@ -9,22 +9,35 @@ var sequelize = new Sequelize('roadmap', 'postgres', 'password', {
         max: 5,
         min: 0,
         idle: 10000
-    }
+    },
+
+    logging: false
 })
 
 var User = sequelize.define('user', {
     id: {
-        type: Sequelize.UUID,
-        primaryKey: true
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
-    username: Sequelize.STRING,
-    email: Sequelize.STRING,
-    description: Sequelize.STRING,
-    password: Sequelize.STRING,
-    avatarUrl: Sequelize.STRING,
+    username: {
+        type: Sequelize.STRING(256),
+        unique: true,
+        allowNull: false
+    },
+    email: {
+        type: Sequelize.STRING(256),
+        allowNull: false
+    },
+    description: Sequelize.STRING(500),
+    password: {
+        type: Sequelize.STRING(256),
+        allowNull: false
+    },
+    avatarUrl: Sequelize.STRING(500),
     age: Sequelize.INTEGER,
-    currentProject: Sequelize.STRING,
-    agency: Sequelize.STRING
+    currentProject: Sequelize.STRING(500),
+    agency: Sequelize.STRING(500)
 })
 
 module.exports = sequelize
