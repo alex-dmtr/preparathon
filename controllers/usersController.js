@@ -21,6 +21,8 @@ exports.postUsers = function(req, res) {
 exports.putUser = function(req, res) {
     let userId = req.params.userId
 
+    if (userId != req.user.id) return res.status(401).send()
+
     let user = req.body
     User
         .update(user, { where: { id: userId}, returning: true })
@@ -38,6 +40,8 @@ exports.putUser = function(req, res) {
 exports.deleteUser = function(req, res) {
     let userId = req.params.userId
 
+    if (userId != req.user.id) return res.status(401).send()
+    
     User
         .destroy({
             where: {
@@ -58,7 +62,8 @@ exports.deleteUser = function(req, res) {
 exports.getUser = function(req, res) {
     let userId = req.params.userId
 
-
+    if (userId != req.user.id) return res.status(401).send()
+    
     User
         .findById(userId)
         .then((result) => {
