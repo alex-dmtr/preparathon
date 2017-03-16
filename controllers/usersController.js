@@ -12,8 +12,8 @@ exports.postUsers = function(req, res) {
             res.status(201).json(result)
         })
         .catch((err) => {
-            throw err
-            res.send(err)
+            console.error(err)
+            res.status(400).send(err)
         })
 }
 
