@@ -1,5 +1,4 @@
 // add endpoint for POST on api/users
-
 exports.postUsers = function(req, res) {
     res.status(501).send()
 }

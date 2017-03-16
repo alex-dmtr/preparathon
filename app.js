@@ -1,6 +1,4 @@
 var express = require('express')
-const db = require('./db')
-
 var app = express()
 
 var router = express.Router()

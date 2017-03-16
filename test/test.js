@@ -1,14 +1,17 @@
 var request = require('supertest')
 var app = require('../app')
 var assert = require('assert')
-const db = require('../db')
+var models = require('../models')
 
 context('DB', function() {
-    it('should connect to DB', function(done) {
-        db
+    it('should connect to DB', function() {
+        return models
             .authenticate()
-            .then(done)
-            .catch(done)
+    })
+
+    it('should sync tables', function() {
+        return models
+            .sync({force:false})
     })
 
 })
