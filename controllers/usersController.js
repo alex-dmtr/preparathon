@@ -1,5 +1,18 @@
 var User = require('../models').models.user
 
+// middleware for getting the user
+exports.userParam = function(req, res, next, userId) {
+    User
+        .findById(userId)
+        .then((result) => {
+            req.user = result
+            next()
+        })
+        .catch((err) => {
+            res.status(404)
+            next(err)
+        })
+}
 // add endpoint for POST on api/users
 exports.postUsers = function(req, res) {
     // res.status(501).send()

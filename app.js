@@ -59,7 +59,7 @@ router.route('/group/:groupId/add/:userId')
 // Add endpoint for /api/group/:groupId/add/:userId
 router.route('/group/:groupId/remove/:userId')
     .delete(groupsController.deleteGroupMember)
-    
+
 // Add endpoints for /api/users
 router.route('/users')
     .post(usersController.postUsers)

@@ -1,26 +1,29 @@
 var models = require('../models').models
-var User = models.User
-var Group = models.Group
+var User = models.user
+var Group = models.group
 // add endpoint for GET on /api/groups/{userId}
 /*
+
+nu ar fi mai bine ca asta sa fie in '/api/users/{userId}/groups'?
     Method GET on route ‘api/groups/{userId}’ - gets all the groups that a user is currently in.
 */
 
-// nu ar fi mai bine ca asta sa fie in '/api/users/{userId}/groups'?
 exports.getUserGroups = function(req, res) {
     let userId = req.params.userId
 
-    User
+    User  
         .findById(userId)
-        .catch(function(err) {
-            console.error(err)
-            res.status(404).send(err)
-        })
         .then(function(user) {
-            return user.getGroups()
+          if (user == null)
+            throw Error("user not found")
+          return user.getGroups()
         })
         .then(function(groups) {
             res.status(200).json(groups)
+        })
+        .catch(function(err) {
+            // console.error(err)
+            res.status(404).send()
         })
 }
 
