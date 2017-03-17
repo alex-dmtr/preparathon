@@ -27,6 +27,7 @@ app.use(bodyParser.json())
 var router = express.Router()
 var authController = require('./controllers/authController')
 var groupsController = require('./controllers/groupsController')
+var postsController = require('./controllers/postsController')
 var usersController = require('./controllers/usersController')
 
 // Add endpoints for /api/auth
@@ -51,7 +52,6 @@ router.route('/group/:groupId')
 router.route('/group/:groupId/members')
     .get(groupsController.getGroupMembers)
 
-
 // Add endpoint for /api/group/:groupId/add/:userId
 router.route('/group/:groupId/add/:userId')
     .put(groupsController.putGroupMember)
@@ -60,6 +60,13 @@ router.route('/group/:groupId/add/:userId')
 router.route('/group/:groupId/remove/:userId')
     .delete(groupsController.deleteGroupMember)
 
+router.route('/group/:groupId/post')
+    .post(postsController.postPost)
+
+router.route('/group/:groupId/post/:postId')
+    .put(postsController.putPost)
+    .delete(postsController.deletePost)
+    
 // Add endpoints for /api/users
 router.route('/users')
     .post(usersController.postUsers)
