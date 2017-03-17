@@ -121,7 +121,7 @@ exports.getGroupMembers = function(req, res) {
         })
         .then(function(group) {
             return group
-                .findUsers()
+                .getUsers()
         })
         .then(function(users) {
             res.status(200).send(users)
@@ -180,19 +180,15 @@ exports.deleteGroupMember = function(req, res) {
 
   Group
     .findById(groupId)
-    .catch(function(err) {
-      console.error(err)
-      res.status(404).send(err)
-    })
     .then(function(group) {
       return group
-        .deleteUser(userId)
-    })
-    .catch(function(err) {
-      console.error(err)
-      res.status(400).send(err)
+        .removeUser(userId)
     })
     .then(function() {
-      res.status(201).json({message: 'OK'})
+      res.status(200).json({message: 'OK'})
+    })
+.catch(function(err) {
+      console.error(err)
+      res.status(400).send(err)
     })
 }
