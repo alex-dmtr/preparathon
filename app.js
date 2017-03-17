@@ -5,7 +5,9 @@ let envVars =
     "DB_HOST", 
     "DB_USERNAME", 
     "DB_PASSWORD", 
-    "JWT_SECRET"
+    "JWT_SECRET",
+    "ROOT_USERNAME",
+    "ROOT_PASSWORD"
 ]
 
 var assert = require('assert')
@@ -25,12 +27,6 @@ app.use(bodyParser.json())
 var router = express.Router()
 var authController = require('./controllers/authController')
 var usersController = require('./controllers/usersController')
-
-router.route('/test')
-    .get(function(req, res) {
-        res.status(200).send('Hello world!')
-    })
-
 
 // Add endpoints for /api/auth
 router.route('/auth')

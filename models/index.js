@@ -1,4 +1,5 @@
 var Sequelize = require('sequelize')
+var Promise = require('bluebird')
 
 var sequelize = new Sequelize('roadmap', process.env.DB_USERNAME, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
@@ -13,30 +14,23 @@ var sequelize = new Sequelize('roadmap', process.env.DB_USERNAME, process.env.DB
     logging: false
 })
 
-var User = sequelize.define('user', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    username: {
-        type: Sequelize.STRING(256),
-        unique: true,
-        allowNull: false
-    },
-    email: {
-        type: Sequelize.STRING(256),
-        allowNull: false
-    },
-    description: Sequelize.STRING(500),
-    password: {
-        type: Sequelize.STRING(256),
-        allowNull: false
-    },
-    avatarUrl: Sequelize.STRING(500),
-    age: Sequelize.INTEGER,
-    currentProject: Sequelize.STRING(500),
-    agency: Sequelize.STRING(500)
-})
+var User = require('./user')(sequelize)
+var Group = require('./group')(sequelize)
+
+Group.belongsTo(User, {as: 'owner'})
+
+Group.belongsToMany(User, {through: 'user_group'})
+User.belongsToMany(Group, {through: 'user_group'})
+
+sequelize.seed = function() {
+    return new Promise(function(resolve, reject) {
+        User.create({
+            username: process.env.ROOT_USERNAME, 
+            password: process.env.ROOT_PASSWORD,
+            email: 'root@root.com'})
+            .catch(reject)
+            .then(resolve)
+    })
+}
 
 module.exports = sequelize
