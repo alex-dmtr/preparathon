@@ -1,11 +1,16 @@
 require('dotenv').config()
-/*
-    Add following environment variables in .env:
-    DB_HOST
-    DB_USERNAME
-    DB_PASSWORD
-    JWT_SECRET
-*/
+/* Add following environment variables in .env: */
+let envVars = 
+[
+    "DB_HOST", 
+    "DB_USERNAME", 
+    "DB_PASSWORD", 
+    "JWT_SECRET"
+]
+
+var assert = require('assert')
+
+envVars.forEach((value) => assert.ok(process.env[value], `${value} not set`))
 
 var express = require('express')
 var bodyParser = require('body-parser')
