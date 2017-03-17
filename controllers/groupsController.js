@@ -11,20 +11,36 @@ nu ar fi mai bine ca asta sa fie in '/api/users/{userId}/groups'?
 exports.getUserGroups = function(req, res) {
     let userId = req.params.userId
 
-    User  
-        .findById(userId)
-        .then(function(user) {
-          if (user == null)
-            throw Error("user not found")
-          return user.getGroups(
-            {
-              attributes: ['id', 'name', 'description'],
-              through: { attributes: []}
-          })
-        })
-        .then(function(groups) {
-            res.status(200).json(groups)
-        })
+    // User  
+    //     .findById(userId)
+    //     .then(function(user) {
+    //       if (user == null)
+    //         throw Error("user not found")
+    //       return user.getGroups(
+    //         {
+    //           attributes: ['id', 'name', 'description'],
+    //           through: { attributes: []}
+    //       })
+    //     })
+    //     .then(function(groups) {
+    //         res.status(200).json(groups)
+    //     })
+    User
+      .findById(userId, {
+        attributes: [],
+        include: [
+          {
+            model: Group,
+            attributes: ['id', 'name', 'description'],
+            through: {
+              attributes: []
+            }
+          }
+        ]
+      })
+      .then(function(user) {
+        res.status(200).json(user.groups)
+      })
         .catch(function(err) {
             // console.error(err)
             res.status(404).send()
