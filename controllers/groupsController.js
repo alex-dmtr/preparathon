@@ -31,7 +31,7 @@ exports.getUserGroups = function(req, res) {
         include: [
           {
             model: Group,
-            attributes: ['id', 'name', 'description'],
+            attributes: [ 'id', 'name', 'description'],
             through: {
               attributes: []
             }

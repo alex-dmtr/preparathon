@@ -16,11 +16,15 @@ var sequelize = new Sequelize('roadmap', process.env.DB_USERNAME, process.env.DB
 
 var User = require('./user')(sequelize)
 var Group = require('./group')(sequelize)
+var Post = require('./post')(sequelize)
 
 Group.belongsTo(User, {as: 'owner'})
 
 Group.belongsToMany(User, {through: 'user_group'})
 User.belongsToMany(Group, {through: 'user_group'})
+
+Post.belongsTo(User, {as: 'owner'})
+Post.belongsTo(Group, {as: 'group'})
 
 sequelize.seed = function() {
     let tasks = []
@@ -47,21 +51,26 @@ sequelize.seed = function() {
         { name: 'group4', description: 'group4', avatarUrl: 'group4'},
       ]).then(function() {
         return Group.findAll()
-    
       }).then(function(groups) {
         this.groups = groups
-        var groupTask =groups.map(function(group) {
+        var groupTask = groups.map(function(group) {
           return new Promise(function(resolve, reject) {
             group.addUser(this.users[1]).then(resolve).catch(reject)
           })
         })
-       
-
-        //  console.log(groupTask)
-        
         return Promise.all(groupTask)
-      }
-    ))
+      }))
+
+    tasks.push(
+      Post.bulkCreate([
+        { message: 'Hello World!', ownerId: 2, groupId: 1},
+        { message: 'Oh Danny boy', ownerId: 2, groupId: 2},
+        { message: 'The pipes, the pipes', ownerId: 2, groupId: 2},
+        { message: 'Are calling', ownerId: 2, groupId: 1},
+        { message: 'The quick brown fox', ownerId: 2, groupId: 3},
+        { message: 'jumps over the lazy dog.', ownerId: 2, groupId: 3},
+      ])
+    )
 
     return Promise.all(tasks)
 }
