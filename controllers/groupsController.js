@@ -16,7 +16,11 @@ exports.getUserGroups = function(req, res) {
         .then(function(user) {
           if (user == null)
             throw Error("user not found")
-          return user.getGroups()
+          return user.getGroups(
+            {
+              attributes: ['id', 'name', 'description'],
+              through: { attributes: []}
+          })
         })
         .then(function(groups) {
             res.status(200).json(groups)

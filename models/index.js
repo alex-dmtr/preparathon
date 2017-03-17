@@ -23,14 +23,47 @@ Group.belongsToMany(User, {through: 'user_group'})
 User.belongsToMany(Group, {through: 'user_group'})
 
 sequelize.seed = function() {
-    return new Promise(function(resolve, reject) {
-        User.create({
-            username: process.env.ROOT_USERNAME, 
-            password: process.env.ROOT_PASSWORD,
-            email: 'root@root.com'})
-            .catch(reject)
-            .then(resolve)
-    })
+    let tasks = []
+    let users = []
+    let groups = [] 
+    tasks.push(
+      User.bulkCreate([
+        { username: process.env.ROOT_USERNAME, password: process.env.ROOT_PASSWORD, email: 'root@root.com'},
+        { username: 'user2', password: 'shh', email: 'user2@user.com'},
+        { username: 'user3', password: 'shh', email: 'user3@user.com'},
+        { username: 'user4', password: 'shh', email: 'user4@user.com'},
+        { username: 'user5', password: 'shh', email: 'user5@user.com'},
+        { username: 'user6', password: 'shh', email: 'user6@user.com'},
+        { username: 'user7', password: 'shh', email: 'user7@user.com'},
+        ]).then(function() { return User.findAll()}).then(function(users) {this.users = users; }) 
+        
+        )
+
+    tasks.push(
+      Group.bulkCreate([
+        { name: 'group1', description: 'group1', avatarUrl: 'group1'},
+        { name: 'group2', description: 'group2', avatarUrl: 'group2'},
+        { name: 'group3', description: 'group3', avatarUrl: 'group3'},
+        { name: 'group4', description: 'group4', avatarUrl: 'group4'},
+      ]).then(function() {
+        return Group.findAll()
+    
+      }).then(function(groups) {
+        this.groups = groups
+        var groupTask =groups.map(function(group) {
+          return new Promise(function(resolve, reject) {
+            group.addUser(this.users[1]).then(resolve).catch(reject)
+          })
+        })
+       
+
+        //  console.log(groupTask)
+        
+        return Promise.all(groupTask)
+      }
+    ))
+
+    return Promise.all(tasks)
 }
 
 module.exports = sequelize
