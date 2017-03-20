@@ -1,10 +1,11 @@
 require('dotenv').config()
 /* Add following environment variables in .env: */
-let envVars = 
+let envVars =
 [
-    "DB_HOST", 
-    "DB_USERNAME", 
-    "DB_PASSWORD", 
+    "DB_HOST",
+    "DB_NAME",
+    "DB_USERNAME",
+    "DB_PASSWORD",
     "JWT_SECRET",
     "ROOT_USERNAME",
     "ROOT_PASSWORD"
@@ -34,7 +35,7 @@ var usersController = require('./controllers/usersController')
 // Add endpoints for /api/auth
 router.route('/auth')
     .post(authController.postAuth)
-    
+
 // Add endpoints for /api/groups/{userId}
 router.route('/groups/:userId')
     .get(jwtMiddleware, groupsController.getUserGroups)
@@ -67,7 +68,7 @@ router.route('/group/:groupId/post')
 router.route('/group/:groupId/post/:postId')
     .put(jwtMiddleware, postsController.putPost)
     .delete(jwtMiddleware, postsController.deletePost)
-    
+
 // Add endpoints for /api/users
 router.route('/users')
     .post(usersController.postUsers)

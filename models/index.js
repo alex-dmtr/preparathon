@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize')
 var Promise = require('bluebird')
 
-var sequelize = new Sequelize('roadmap', process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: 'postgres',
 
@@ -29,7 +29,7 @@ Post.belongsTo(Group, {as: 'group'})
 sequelize.seed = function() {
     let tasks = []
     let users = []
-    let groups = [] 
+    let groups = []
     tasks.push(
       User.bulkCreate([
         { username: process.env.ROOT_USERNAME, password: process.env.ROOT_PASSWORD, email: 'root@root.com'},
@@ -39,8 +39,8 @@ sequelize.seed = function() {
         { username: 'user5', password: 'shh', email: 'user5@user.com'},
         { username: 'user6', password: 'shh', email: 'user6@user.com'},
         { username: 'user7', password: 'shh', email: 'user7@user.com'},
-        ]).then(function() { return User.findAll()}).then(function(users) {this.users = users; }) 
-        
+        ]).then(function() { return User.findAll()}).then(function(users) {this.users = users; })
+
         )
 
     tasks.push(
