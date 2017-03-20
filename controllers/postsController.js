@@ -1,7 +1,7 @@
 const models = require('../models').models
-var Post = models.Post
-var User = models.User
-var Group = models.Group
+var Post = models.post
+var User = models.user
+var Group = models.group
 
 /*
   Method POST on route ‘api/group/{groupId}/post’ - creates a new post and receives all the fields except groupId, because we have the groupId in the route.
@@ -26,7 +26,7 @@ exports.postPost = function(req, res) {
 /*
   Method PUT on route ‘api/group/{groupId}/post/{postId}’ - updates a post message.
 */
-exports.putPost = function(req, rest) {
+exports.putPost = function(req, res) {
   var groupId = req.params.groupId
   var postId = req.params.postId
 
@@ -36,7 +36,7 @@ exports.putPost = function(req, rest) {
       return post.update(req.body)
     })
     .then(function(post) {
-      res.status(200).send(post)
+      res.status(200).json(post)
     })
     .catch(function(err) {
       console.error(err)

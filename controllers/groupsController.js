@@ -1,6 +1,7 @@
 var models = require('../models').models
 var User = models.user
 var Group = models.group
+var Post = models.post
 // add endpoint for GET on /api/groups/{userId}
 /*
 
@@ -51,16 +52,17 @@ exports.getUserGroups = function(req, res) {
     Method POST on route ‘api/groups’ - creates a new group, initially a group with all the fields set, except the memberIds, that at the beginning is an empty array
 */
 exports.postGroups = function(req, res) {
-    let group = req.body
+    let newGroup = req.body
 
+    newGroup.ownerId = req.user.id
     Group
-        .create(group)
+        .create(newGroup)
+        .then(function(group) {
+            res.status(201).json(group)
+        })
         .catch(function(err) {
             console.error(err)
             res.status(400).send(err)
-        })
-        .then(function(group) {
-            res.status(201).json(group)
         })
 }
 
@@ -96,14 +98,28 @@ exports.putGroup = function(req, res) {
 exports.getGroup = function(req, res) {
     let groupId = req.params.groupId
 
+    let group = null
     Group
         .findById(groupId)
+        .then(function(group) {
+            this.group = group
+       
+            return Post.findAll({where: {groupId:groupId}})
+         })
+        .then(function(posts) {
+            let group = this.group
+            res.status(200).send({
+                id: group.id,
+                name: group.name,
+                description: group.description,
+                avatarUrl: group.avatarUrl,
+                ownerId: group.ownerId,
+                posts: posts
+            })            
+        })
         .catch(function(err) {
             console.error(err)
             res.status(404).send(err)
-        })
-        .then(function(group) {
-            res.status(200).send(group)
         })
 }
 

@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 gulp.task('test', function() {
     return gulp.src('./test/**')
-        .pipe(mocha())
+        .pipe(mocha({bail: true}))
         
 })
 gulp.task('default', function() {

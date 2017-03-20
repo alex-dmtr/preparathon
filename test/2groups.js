@@ -3,7 +3,6 @@ var app = require('../app')
 var assert = require('assert')
 var Promise = require('bluebird')
 
-
 context('groups CRUD', function() {
   let token = null 
   
@@ -64,6 +63,7 @@ context('groups CRUD', function() {
         assert.equal(group.name, newGroup.name)
         assert.equal(group.description, newGroup.description)
         assert.equal(group.avatarUrl, newGroup.avatarUrl)
+        assert.equal(newGroup.ownerId, 1)
 
         group = newGroup
         done()
@@ -88,18 +88,33 @@ context('groups CRUD', function() {
         assert.equal(group.name, newGroup.name)
         assert.equal(group.description, newGroup.description)
         assert.equal(group.avatarUrl, newGroup.avatarUrl)
+        assert.equal(newGroup.ownerId, 1)
 
         group = newGroup
         done()
       })
   })
 
-  it('should read the same group', function(done) {
+  it('should read the same group + posts', function(done) {
   request(app)
     .get(`/api/group/${group.id}`)
     .set('Authorization', 'Bearer ' + token)
     .expect(200)
-    .expect(group, done)
+    .end(function(err, res) {
+      if (err) return done(err)
+
+      let newGroup = res.body
+
+      assert.equal(group.name, newGroup.name)
+      assert.equal(group.description, newGroup.description)
+      assert.equal(group.avatarUrl, newGroup.avatarUrl)
+        assert.equal(newGroup.ownerId, 1)
+      
+      // console.log(newGroup)
+      assert.equal(newGroup.posts.length, 0)
+
+      done()
+    })
   })
 
   it('should put user 2 in the group', function(done) {

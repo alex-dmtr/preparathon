@@ -21,7 +21,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha",
+    "test": "gulp test --silent",
     "start": "gulp --silent"
   },
   "repository": {
