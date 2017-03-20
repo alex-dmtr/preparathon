@@ -3,10 +3,27 @@ var app = require('../app')
 var assert = require('assert')
 var Promise = require('bluebird')
 
+
 context('groups CRUD', function() {
+  let token = null 
+  
+  it('should authenticate as root', function(done) {
+		request(app)
+			.post('/api/auth')
+			.send({username: process.env.ROOT_USERNAME, password: process.env.ROOT_PASSWORD})
+			.expect(200)
+			.end(function(err, res) {
+				if (err) return done(err)
+
+				token = res.body.jwt
+				done()
+			})
+	})
+
   it('should read 4 groups for user 2', function(done) {
     request(app)
       .get('/api/groups/2')
+      .set('Authorization', 'Bearer ' + token)      
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err)
@@ -36,6 +53,7 @@ context('groups CRUD', function() {
   it('should create a group', function(done) {
     request(app)
       .post('/api/groups')
+      .set('Authorization', 'Bearer ' + token)
       .send(group)
       .expect(201)
       .end(function(err, res) {
@@ -59,6 +77,7 @@ context('groups CRUD', function() {
 
     request(app)
       .put(`/api/group/${group.id}`)
+      .set('Authorization', 'Bearer ' + token)
       .send(group)
       .expect(200)
       .end(function(err, res) {
@@ -78,6 +97,7 @@ context('groups CRUD', function() {
   it('should read the same group', function(done) {
   request(app)
     .get(`/api/group/${group.id}`)
+    .set('Authorization', 'Bearer ' + token)
     .expect(200)
     .expect(group, done)
   })
@@ -85,12 +105,14 @@ context('groups CRUD', function() {
   it('should put user 2 in the group', function(done) {
     request(app)
       .put(`/api/group/${group.id}/add/2`)
+      .set('Authorization', 'Bearer ' + token)
       .expect(201, done)
   })
 
   it('should get group members and find member 2', function(done) {
     request(app)
       .get(`/api/group/${group.id}/members`)
+      .set('Authorization', 'Bearer ' + token)
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err)
@@ -107,12 +129,14 @@ context('groups CRUD', function() {
   it('should remove member 2 from group', function(done) {
     request(app)
       .delete(`/api/group/${group.id}/remove/2`)
+      .set('Authorization', 'Bearer ' + token)
       .expect(200, done)
   })
 
   it('should delete the group', function(done) {
     request(app)
       .delete(`/api/group/${group.id}`)
+      .set('Authorization', 'Bearer ' + token)
       .expect(200, done)
   })
 

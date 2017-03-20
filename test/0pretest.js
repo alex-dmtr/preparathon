@@ -3,7 +3,7 @@ var app = require('../app')
 var assert = require('assert')
 var db = require('../models')
 
-before('DB', function() {
+context('DB', function() {
 		it('should connect to DB', function() {
 				return db
 						.authenticate()
@@ -22,7 +22,4 @@ before('DB', function() {
 
 })
 
-before('Auth', function() {
-	
-})
 

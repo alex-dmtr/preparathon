@@ -19,6 +19,7 @@ var bodyParser = require('body-parser')
 var expressJwt = require('express-jwt')
 
 var jwt = require('jsonwebtoken')
+var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
 var app = express()
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -36,36 +37,36 @@ router.route('/auth')
     
 // Add endpoints for /api/groups/{userId}
 router.route('/groups/:userId')
-    .get(groupsController.getUserGroups)
+    .get(jwtMiddleware, groupsController.getUserGroups)
 
 // Add endpoints for /api/groups
 router.route('/groups')
-    .post(groupsController.postGroups)
+    .post(jwtMiddleware, groupsController.postGroups)
 
 // Add endpoints for /api/group/{groupId}
 router.route('/group/:groupId')
-    .put(groupsController.putGroup)
-    .get(groupsController.getGroup)
-    .delete(groupsController.deleteGroup)
+    .put(jwtMiddleware, groupsController.putGroup)
+    .get(jwtMiddleware, groupsController.getGroup)
+    .delete(jwtMiddleware, groupsController.deleteGroup)
 
 // Add endpoints for /api/group/{groupId}/members
 router.route('/group/:groupId/members')
-    .get(groupsController.getGroupMembers)
+    .get(jwtMiddleware, groupsController.getGroupMembers)
 
 // Add endpoint for /api/group/:groupId/add/:userId
 router.route('/group/:groupId/add/:userId')
-    .put(groupsController.putGroupMember)
+    .put(jwtMiddleware, groupsController.putGroupMember)
 
 // Add endpoint for /api/group/:groupId/add/:userId
 router.route('/group/:groupId/remove/:userId')
-    .delete(groupsController.deleteGroupMember)
+    .delete(jwtMiddleware, groupsController.deleteGroupMember)
 
 router.route('/group/:groupId/post')
-    .post(postsController.postPost)
+    .post(jwtMiddleware, postsController.postPost)
 
 router.route('/group/:groupId/post/:postId')
-    .put(postsController.putPost)
-    .delete(postsController.deletePost)
+    .put(jwtMiddleware, postsController.putPost)
+    .delete(jwtMiddleware, postsController.deletePost)
     
 // Add endpoints for /api/users
 router.route('/users')
@@ -73,9 +74,9 @@ router.route('/users')
 
 // Add endpoints for /api/users/{userId}
 router.route('/users/:userId')
-    .put(expressJwt({secret: process.env.JWT_SECRET}), usersController.putUser)
-    .delete(expressJwt({secret: process.env.JWT_SECRET}), usersController.deleteUser)
-    .get(expressJwt({secret: process.env.JWT_SECRET}), usersController.getUser)
+    .put(jwtMiddleware, usersController.putUser)
+    .delete(jwtMiddleware, usersController.deleteUser)
+    .get(jwtMiddleware, usersController.getUser)
 
 app.get('/', function(req, res) {
     res.status(200).json({
