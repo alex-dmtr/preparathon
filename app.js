@@ -36,6 +36,7 @@ var usersController = require('./controllers/usersController')
 router.route('/auth')
     .post(authController.postAuth)
 
+
 // Add endpoints for /api/groups/{userId}
 router.route('/groups/:userId')
     .get(jwtMiddleware, groupsController.getUserGroups)

@@ -5,7 +5,7 @@ var Promise = require('bluebird')
 
 context('groups CRUD', function() {
   let token = null 
-  
+
   it('should authenticate as root', function(done) {
 		request(app)
 			.post('/api/auth')
@@ -19,29 +19,7 @@ context('groups CRUD', function() {
 			})
 	})
 
-  it('should read 4 groups for user 2', function(done) {
-    request(app)
-      .get('/api/groups/2')
-      .set('Authorization', 'Bearer ' + token)      
-      .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err)
 
-        var groups = res.body
-
-        assert.equal(typeof(groups), 'object')
-        assert.equal(groups.length, 4)
-        
-        groups.forEach(function(group) {
-          assert.ok(group.id, 'Missing ID')
-          assert.ok(group.name, 'Mssing Name')
-          assert.ok(group.description, 'Missing description')
-        })
-
-        done()
-      })
-
-  })
 
   let group =
   {
@@ -117,14 +95,15 @@ context('groups CRUD', function() {
     })
   })
 
-  it('should put user 2 in the group', function(done) {
+  it('should put user root in the group', function(done) {
     request(app)
-      .put(`/api/group/${group.id}/add/2`)
+      .put(`/api/group/${group.id}/add/1`)
       .set('Authorization', 'Bearer ' + token)
       .expect(201, done)
   })
 
-  it('should get group members and find member 2', function(done) {
+
+  it('should get group members and find member root', function(done) {
     request(app)
       .get(`/api/group/${group.id}/members`)
       .set('Authorization', 'Bearer ' + token)
@@ -135,15 +114,40 @@ context('groups CRUD', function() {
 
         assert.equal(members.length, 1)
 
-        assert.equal(members[0].id, 2)
+        assert.equal(members[0].id, 1)
 
         done()
       })
   })
 
-  it('should remove member 2 from group', function(done) {
+  
+  it('should read 1 groups for root', function(done) {
     request(app)
-      .delete(`/api/group/${group.id}/remove/2`)
+      .get('/api/groups/1')
+      .set('Authorization', 'Bearer ' + token)      
+      .expect(200)
+      .end(function(err, res) {
+        if (err) return done(err)
+
+        var groups = res.body
+
+        assert.equal(typeof(groups), 'object')
+        assert.equal(groups.length, 1)
+        
+        groups.forEach(function(group) {
+          assert.ok(group.id, 'Missing ID')
+          assert.ok(group.name, 'Mssing Name')
+          assert.ok(group.description, 'Missing description')
+        })
+
+        done()
+      })
+
+  })
+
+  it('should remove root from group', function(done) {
+    request(app)
+      .delete(`/api/group/${group.id}/remove/1`)
       .set('Authorization', 'Bearer ' + token)
       .expect(200, done)
   })

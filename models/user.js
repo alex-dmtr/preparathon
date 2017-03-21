@@ -1,6 +1,17 @@
 const Sequelize = require('sequelize')
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
+var Promise = require('bluebird')
 
-
+function hashPassword(user) {
+  return bcrypt
+      .hash(user.password, saltRounds)
+        .then(function(hash) {
+          user.password = hash
+          return Promise.resolve()
+        })
+   
+}
 module.exports = function(sequelize) {
     var User = sequelize.define('user', {
         id: {
@@ -26,7 +37,20 @@ module.exports = function(sequelize) {
         age: Sequelize.INTEGER,
         currentProject: Sequelize.STRING(500),
         agency: Sequelize.STRING(500)
-    })
+    }, {
+      hooks: {
+        beforeCreate: function(user) {
+          if (user.changed('password'))
+            return hashPassword(user)
+        },
+        beforeBulkCreate: function(instances) {
+          var tasks = instances.map(function(instance) {
+            return hashPassword(instance)
+          })
 
+          return Promise.all(tasks)
+        }
+      }
+    })
     return User
 }

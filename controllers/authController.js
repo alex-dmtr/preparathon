@@ -1,9 +1,12 @@
 var User = require('../models').models.user
 var jwt = require('jsonwebtoken')
+var bcrypt = require('bcrypt')
 
 // add endpoint for POST on /api/auth
 // should receive username and password
 exports.postAuth = function(req, res) {
+
+  this.user = {}
     User
         .findOne({
             where: {
@@ -15,14 +18,19 @@ exports.postAuth = function(req, res) {
             res.status(401).send(err)
         })
         .then(function(result) {
-
-            if (req.body.password == result.password)
-            {
-                var token = jwt.sign({username: result.username, id: result.id}, process.env.JWT_SECRET)
-                res.status(200).json({jwt:token})
-            }
-            else
-                res.status(401).json({message: 'Authentication failed'})
+          this.user = result
+          return bcrypt
+            .compare(req.body.password, result.password)
+           
+        })
+        .then(function(ok) {
+          if (ok)
+          {
+              var token = jwt.sign({username: this.user.username, id: this.user.id}, process.env.JWT_SECRET)
+              res.status(200).json({jwt:token})
+          }
+          else
+              res.status(401).json({message: 'Authentication failed'})
         })
 
 }
