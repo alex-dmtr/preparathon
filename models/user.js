@@ -43,6 +43,10 @@ module.exports = function(sequelize) {
           if (user.changed('password'))
             return hashPassword(user)
         },
+        beforeSave: function(user) {
+          if (user.changed('password')) 
+            return hashPassword(user)
+        },
         beforeBulkCreate: function(instances) {
           var tasks = instances.map(function(instance) {
             return hashPassword(instance)
