@@ -13,10 +13,6 @@ exports.postAuth = function(req, res) {
                 username: req.body.username
             }
         })
-        .catch(function(err) {
-            throw err
-            res.status(401).send(err)
-        })
         .then(function(result) {
           this.user = result
           return bcrypt
@@ -31,6 +27,9 @@ exports.postAuth = function(req, res) {
           }
           else
               res.status(401).json({message: 'Authentication failed'})
+        })
+        .catch(function(err) {
+            res.status(401).send(err)
         })
 
 }
