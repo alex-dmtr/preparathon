@@ -23,7 +23,10 @@ exports.postAuth = function(req, res) {
           if (ok)
           {
               var token = jwt.sign({username: this.user.username, id: this.user.id}, process.env.JWT_SECRET)
-              res.status(200).json({jwt:token})
+              res.status(200).json({jwt:token, user: {
+		  id: this.user.id,
+		  username: this.user.username
+	      }})
           }
           else
               res.status(401).json({message: 'Authentication failed'})
