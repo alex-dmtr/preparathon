@@ -95,6 +95,24 @@ context('groups CRUD', function() {
     })
   })
 
+  it('should get [newGroup] of groups', (done) => {
+    request(app)
+      .get(`/api/groups/`)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err)
+
+        let groups = res.body
+
+        let foundGroup = groups.find(g => g.id === group.id)
+        
+        Object.keys(group).forEach(key => assert.equal(group[key], foundGroup[key]))
+
+        done()
+      })
+  })
+
   it('should put user root in the group', function(done) {
     request(app)
       .put(`/api/group/${group.id}/add/1`)

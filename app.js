@@ -50,6 +50,7 @@ router.route('/groups/:userId')
 
 // Add endpoints for /api/groups
 router.route('/groups')
+    .get(jwtMiddleware, groupsController.getGroups)
     .post(jwtMiddleware, groupsController.postGroups)
 
 // Add endpoints for /api/group/{groupId}

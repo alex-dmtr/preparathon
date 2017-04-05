@@ -2,6 +2,20 @@ var models = require('../models').models
 var User = models.user
 var Group = models.group
 var Post = models.post
+
+/*
+    Method GET on route 'api/groups/' - gets all the groups
+*/
+
+exports.getGroups = (req, res) => {
+  Group.findAll()
+    .then((groups) => {
+      res.status(200).json(groups)
+    })
+    .catch((err) => {
+      res.status(403).json(err)
+    })
+}
 // add endpoint for GET on /api/groups/{userId}
 /*
 
