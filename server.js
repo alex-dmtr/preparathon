@@ -1,18 +1,16 @@
 const app = require('./app')
 var https = require('https')
 var http = require('http')
-var fs = require('fs')
+var pem = require('pem')
 const port = process.env.PORT
 
-var hskey = fs.readFileSync('./cert/hacksparrow-key.pem')
-var hscert = fs.readFileSync('./cert/hacksparrow-cert.pem')
+pem.createCertificate({days:1, selfSigned:true}, function(err, keys){
 
-var options = {
-  key: hskey,
-  cert: hscert
-}
+  https.createServer({key: keys.serviceKey, cert: keys.certificate}, app)
+    .listen(port, () => {
+      console.log(`https listening on ${port}`)
+  });
+    
+});
 
-https.createServer(options, app).listen(port)
 
-
-console.log(`https on port ${port}`)
