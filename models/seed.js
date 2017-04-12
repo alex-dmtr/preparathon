@@ -10,22 +10,23 @@
 
     function seedUsers() {
       return User.bulkCreate([
-        { username: 'user2', password: 'shh', email: 'user2@user.com'},
-        { username: 'user3', password: 'shh', email: 'user3@user.com'},
-        { username: 'user4', password: 'shh', email: 'user4@user.com'},
-        { username: 'user5', password: 'shh', email: 'user5@user.com'},
-        { username: 'user6', password: 'shh', email: 'user6@user.com'},
-        { username: 'user7', password: 'shh', email: 'user7@user.com'},
+        { username: 'john.donald', password: 'shh', email: 'user2@user.com'},
+        { username: 'galen.erso', password: 'shh', email: 'user3@user.com'},
+        { username: 'orson.krennic', password: 'shh', email: 'user4@user.com'},
+        { username: 'darth.vader', password: 'shh', email: 'user5@user.com'},
+        { username: 'jyn.erso', password: 'shh', email: 'user6@user.com'},
+        { username: 'bail.organa', password: 'shh', email: 'user7@user.com'},
         ]).then(function() { return User.findAll()})
 
     }
 
     function seedGroups(users) {
       Group.bulkCreate([
-        { name: 'group1', description: 'group1', avatarUrl: 'group1', ownerId: users[1].id},
-        { name: 'group2', description: 'group2', avatarUrl: 'group2', ownerId: users[2].id},
-        { name: 'group3', description: 'group3', avatarUrl: 'group3', ownerId: users[3].id},
-        { name: 'group4', description: 'group4', avatarUrl: 'group4', ownerId: users[4].id},
+        { name: 'Explorers', description: 'Hiking and outdoor activities', avatarUrl: 'http://s.hswstatic.com/gif/how-to-hike-1.jpg', ownerId: users[1].id},
+        { name: 'Bikers', description: 'Bike enthusiast? Join in', avatarUrl: 'http://ec2-54-169-79-17.ap-southeast-1.compute.amazonaws.com/images/experiences/photo/947_1455027009.jpg', ownerId: users[2].id},
+        { name: 'Metal fans', description: 'Newcomers welcome!', avatarUrl: 'http://www.deathmetal.org/wp-content/uploads/heavy_metal_concert-600x375.jpg', ownerId: users[3].id},
+        { name: 'Star Wars fans', description: 'Patiently awaiting The Last Jedi!', 
+        avatarUrl: 'https://blogs-images.forbes.com/brandonkatz/files/2016/10/Star-Wars-1200x675.jpg?width=960', ownerId: users[4].id},
       ]).then(function() {
         return Group.findAll()
       }).then(function(groups) {

@@ -21,7 +21,7 @@ var expressJwt = require('express-jwt')
 
 var jwt = require('jsonwebtoken')
 var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
-jwtMiddleware = (req, res, next) => { next() }
+// jwtMiddleware = (req, res, next) => { next() }
 var app = express()
 
 app.use(bodyParser.urlencoded({extended: true}))
