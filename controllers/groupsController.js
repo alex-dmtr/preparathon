@@ -8,7 +8,15 @@ var Post = models.post
 */
 
 exports.getGroups = (req, res) => {
-  Group.findAll()
+  Group.findAll({ include: [ 
+      {
+        model: User, as: 'owner'
+      },
+      {
+        model: User
+      }
+      
+      ]})
     .then((groups) => {
       res.status(200).json(groups)
     })

@@ -22,10 +22,10 @@
 
     function seedGroups(users) {
       Group.bulkCreate([
-        { name: 'group1', description: 'group1', avatarUrl: 'group1'},
-        { name: 'group2', description: 'group2', avatarUrl: 'group2'},
-        { name: 'group3', description: 'group3', avatarUrl: 'group3'},
-        { name: 'group4', description: 'group4', avatarUrl: 'group4'},
+        { name: 'group1', description: 'group1', avatarUrl: 'group1', ownerId: users[1].id},
+        { name: 'group2', description: 'group2', avatarUrl: 'group2', ownerId: users[2].id},
+        { name: 'group3', description: 'group3', avatarUrl: 'group3', ownerId: users[3].id},
+        { name: 'group4', description: 'group4', avatarUrl: 'group4', ownerId: users[4].id},
       ]).then(function() {
         return Group.findAll()
       }).then(function(groups) {
