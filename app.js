@@ -29,9 +29,24 @@ app.use(bodyParser.json())
 // allow CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept")
   next()
 })
+
+// var allowCrossDomain = function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Requested-With, Accept');
+      
+//     // intercept OPTIONS method
+//     if ('OPTIONS' == req.method) {
+//       res.status(200);
+//     }
+//     else {
+//       next();
+//     }
+// };
+// app.use(allowCrossDomain);
 
 var router = express.Router()
 var authController = require('./controllers/authController')
