@@ -11,14 +11,25 @@ exports.getGroups = (req, res) => {
   Group.findAll({ include: [ 
       {
         model: User, as: 'owner'
-      },
+      }/*,
       {
         model: User
-      }
+      }*/
       
       ]})
     .then((groups) => {
-      res.status(200).json(groups)
+      res.status(200).json(groups.map((group) => {
+          return {
+              id: group.id,
+              name: group.name,
+              avatarUrl: group.avatarUrl,
+              owner: {
+                  id: group.owner.id,
+                  username: group.owner.username,
+                  avatarUrl: group.owner.avatarUrl
+              }
+          }
+      }))
     })
     .catch((err) => {
       res.status(403).json(err)
@@ -89,7 +100,7 @@ exports.postGroups = function(req, res) {
 }
 
 /*
-    Method PUT on route ‘api/groups/{groupId}’ - updates a current group. It should update only the fields “name”, “description” and “avatarUrl”.
+    Method PUT on route ‘api/group/{groupId}’ - updates a current group. It should update only the fields “name”, “description” and “avatarUrl”.
 */  
 exports.putGroup = function(req, res) {
     let group = req.body
@@ -115,14 +126,17 @@ exports.putGroup = function(req, res) {
 }
 
 /*
-    Method GET on route ‘api/groups/{groupId}’ - gets data about a current group.
+    Method GET on route ‘api/group/{groupId}’ - gets data about a current group.
 */
 exports.getGroup = function(req, res) {
     let groupId = req.params.groupId
 
     let group = null
     Group
-        .findById(groupId)
+        .findById(groupId, { include: [ 
+      {
+        model: User, as: 'owner'
+      }]})
         .then(function(group) {
             this.group = group
        
@@ -135,7 +149,11 @@ exports.getGroup = function(req, res) {
                 name: group.name,
                 description: group.description,
                 avatarUrl: group.avatarUrl,
-                ownerId: group.ownerId,
+                owner: {
+                    id: group.owner.id,
+                    username: group.owner.username,
+                    avatarUrl: group.owner.avatarUrl
+                },
                 posts: posts
             })            
         })
@@ -146,7 +164,7 @@ exports.getGroup = function(req, res) {
 }
 
 /*
-    Method GET on route ‘api/groups/{groupId}/members’ - gets all the members from a group.
+    Method GET on route ‘api/group/{groupId}/members’ - gets all the members from a group.
 */
 exports.getGroupMembers = function(req, res) {
     let groupId = req.params.groupId
@@ -162,12 +180,18 @@ exports.getGroupMembers = function(req, res) {
                 .getUsers()
         })
         .then(function(users) {
-            res.status(200).send(users)
+            res.status(200).send(users.map((user) => {
+                return {
+                    id: user.id,
+                    username: user.username,
+                    avatarUrl: user.avatarUrl
+                }
+            }))
         })
 }
 
 /*
-  Method DELETE on route ‘api/groups/{groupId}’ - deletes a group.
+  Method DELETE on route ‘api/group/{groupId}’ - deletes a group.
 */
 exports.deleteGroup = function(req, res) {
   let groupId = req.params.groupId
@@ -184,7 +208,7 @@ exports.deleteGroup = function(req, res) {
 }
 
 /*
-  Method PUT on route ‘api/groups/{groupId}/add/’ - adds a member into the group. It will receive a memberId as a parameter, and it will add that memberId to the memberIds array.
+  Method PUT on route ‘api/group/{groupId}/add/’ - adds a member into the group. It will receive a memberId as a parameter, and it will add that memberId to the memberIds array.
 */
 exports.putGroupMember = function(req, res) {
   let groupId = req.params.groupId
@@ -210,7 +234,7 @@ exports.putGroupMember = function(req, res) {
 }
 
 /*
-  Method DELETE on route ‘api/groups/{groupId}/remove’ - removes a member from that group.
+  Method DELETE on route ‘api/group/{groupId}/remove’ - removes a member from that group.
 */
 exports.deleteGroupMember = function(req, res) {
   let groupId = req.params.groupId

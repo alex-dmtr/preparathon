@@ -8,7 +8,8 @@ let envVars =
     "DB_PASSWORD",
     "JWT_SECRET",
     "ROOT_USERNAME",
-    "ROOT_PASSWORD"
+    "ROOT_PASSWORD",
+    "BYPASS_JWT"
 ]
 
 var assert = require('assert')
@@ -20,7 +21,7 @@ var bodyParser = require('body-parser')
 var expressJwt = require('express-jwt')
 
 var jwt = require('jsonwebtoken')
-var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
+var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET, credentialsRequired: !process.env.BYPASS_JWT})
 // jwtMiddleware = (req, res, next) => { next() }
 var app = express()
 
