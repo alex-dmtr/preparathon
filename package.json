@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "gulp test",
-    "start": "gulp --silent"
+    "start": "gulp --silent",
+    "seed": "gulp seed"
   },
   "repository": {
     "type": "git",

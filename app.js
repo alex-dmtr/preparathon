@@ -25,6 +25,10 @@ var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET, credentialsRequi
 // jwtMiddleware = (req, res, next) => { next() }
 var app = express()
 
+// simulate latency
+// app.use((req, res, next) => {
+//     setTimeout(next, Math.random()*500)
+// })
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
