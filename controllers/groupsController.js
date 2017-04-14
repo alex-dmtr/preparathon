@@ -2,7 +2,13 @@ var models = require('../models').models
 var User = models.user
 var Group = models.group
 var Post = models.post
+var _ = require('lodash')
+var winston = require('winston')
 
+function isUserMemberOfGroup(user, group) {
+    // return false
+    return _.includes(group.users.map(user => user.id), user.id)
+}
 /*
     Method GET on route 'api/groups/' - gets all the groups
 */
@@ -11,10 +17,10 @@ exports.getGroups = (req, res) => {
   Group.findAll({ include: [ 
       {
         model: User, as: 'owner'
-      }/*,
+      },
       {
         model: User
-      }*/
+      }
       
       ]})
     .then((groups) => {
@@ -28,11 +34,16 @@ exports.getGroups = (req, res) => {
                   id: group.owner.id,
                   username: group.owner.username,
                   avatarUrl: group.owner.avatarUrl
-              }
+              },
+              // users: group.users.map(user => user.id),
+              // req: req,
+              is_member: isUserMemberOfGroup(req.user, group),
+              num_members: group.users.length
           }
       }))
     })
     .catch((err) => {
+      winston.error(err)
       res.status(403).json(err)
     })
 }
@@ -137,6 +148,9 @@ exports.getGroup = function(req, res) {
         .findById(groupId, { include: [ 
       {
         model: User, as: 'owner'
+      },
+      {
+          model: User
       }]})
         .then(function(group) {
             this.group = group
@@ -155,6 +169,13 @@ exports.getGroup = function(req, res) {
                     username: group.owner.username,
                     avatarUrl: group.owner.avatarUrl
                 },
+                members: group.users.map((user) => {
+                  return {
+                    id: user.id,
+                    username: user.username,
+                    avatarUrl: user.avatarUrl
+                  }
+                }),
                 posts: posts
             })            
         })

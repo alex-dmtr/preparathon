@@ -9,7 +9,6 @@ let envVars =
     "JWT_SECRET",
     "ROOT_USERNAME",
     "ROOT_PASSWORD",
-    "BYPASS_JWT"
 ]
 
 var assert = require('assert')
@@ -19,15 +18,17 @@ envVars.forEach((value) => assert.ok(process.env[value], `${value} not set`))
 var express = require('express')
 var bodyParser = require('body-parser')
 var expressJwt = require('express-jwt')
+var morgan = require('morgan')
 
 var jwt = require('jsonwebtoken')
-var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET, credentialsRequired: !process.env.BYPASS_JWT})
+var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
 // jwtMiddleware = (req, res, next) => { next() }
 var app = express()
 
+app.use(morgan('dev'))
 // simulate latency
 // app.use((req, res, next) => {
-//     setTimeout(next, Math.random()*500)
+//     setTimeout(next, Math.random()*1000)
 // })
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -111,8 +112,17 @@ router.route('/users/:userId')
 
 app.get('/', function(req, res) {
     res.status(200).json({
-        api: '/api'
+        '/api': 'API'
     })
+})
+
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    '/auth': 'Authentication',
+    '/group': 'Group info & posts',
+    '/groups': 'Groups',
+    '/users': 'Users'
+  })  
 })
 app.use('/api', router)
 
