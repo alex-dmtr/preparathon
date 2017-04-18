@@ -40,6 +40,16 @@
       "members": [
         "jango.fett",
         "darth.vader"
+      ],
+      "posts": [
+        {
+          "message": "Through hostile fire we will march!",
+          "user": "jango.fett"
+        },
+        {
+          "message": "The ability to destroy a planet is insignficant compared to the power of the Force.",
+          "user": "darth.vader"
+        }
       ]
     },
     { 
@@ -50,11 +60,18 @@
       "members": [
         "darth.vader",
         "jango.fett"
+      ],
+      "posts": [
+        {
+          "message": "No, I am your father!",
+          "user": "darth.vader"
+        },
+        {
+          "message": "Watch those wrist rockets",
+          "user": "jango.fett"
+        }
       ]
     }
-  ],
-
-  "posts": [
-
   ]
+
 }

@@ -12,7 +12,7 @@
     }
 
     function seedUsers() {
-      console.log("=> seed users");
+      // console.log("=> seed users");
       let tasks = data.users.map((user) => {
         return User.create({
           username: user.username,
@@ -39,7 +39,7 @@
     }
 
     function seedGroups(users) {
-      console.log("=> seed groups");
+      // console.log("=> seed groups");
       let tasks = data.groups.map(group => {
         let owner = _.find(users, u => u.username === group.owner); 
 
@@ -52,13 +52,33 @@
           avatarUrl: group.avatarUrl
         }).then(dbGroup => {
 
-            console.log(`${group.name} added`);
+            // console.log(`${group.name} added`);
             var addMembers = group.members.map(username => {
               let member = _.find(users, u => u.username == username);
+              // console.log(`add ${username} to ${group.name}`);
               return dbGroup.addUser(member);
             })
 
+            var addPosts;
+            
+            if (group.posts)
+              addPosts = group.posts.map(post => {
+                let user = _.find(users, u => u.username === post.user);
+                console.log(`${user.id} => ${post.message}`);
+                // console.log(`add ${post.message}`)
+                return Post.create({
+                  message: post.message,
+                  ownerId: user.id,
+                  groupId: dbGroup.id
+                });
+              });
+            else
+              addPosts = [Promise.resolve()];
+
             return Promise.all(addMembers)
+              .then(() => {
+                return Promise.all(addPosts);
+              })
               .then(() => {
                 return Promise.resolve(dbGroup);
               });
@@ -85,21 +105,26 @@
       // })
     }
 
-   function seedPosts() {
-      // Post.bulkCreate([
-      //   { message: 'Hello World!', ownerId: 2, groupId: 1},
-      //   { message: 'Oh Danny boy', ownerId: 2, groupId: 2},
-      //   { message: 'The pipes, the pipes', ownerId: 2, groupId: 2},
-      //   { message: 'Are calling', ownerId: 2, groupId: 1},
-      //   { message: 'The quick brown fox', ownerId: 2, groupId: 3},
-      //   { message: 'jumps over the lazy dog.', ownerId: 2, groupId: 3},
-      // ])
-   }
+  //  function seedPosts() {
+  //     // Post.bulkCreate([
+  //     //   { message: 'Hello World!', ownerId: 2, groupId: 1},
+  //     //   { message: 'Oh Danny boy', ownerId: 2, groupId: 2},
+  //     //   { message: 'The pipes, the pipes', ownerId: 2, groupId: 2},
+  //     //   { message: 'Are calling', ownerId: 2, groupId: 1},
+  //     //   { message: 'The quick brown fox', ownerId: 2, groupId: 3},
+  //     //   { message: 'jumps over the lazy dog.', ownerId: 2, groupId: 3},
+  //     // ])
+  //  }
 
     return function() {
+      this.users = [];
+      this.groups = [];
+      this.posts = [];
       createRoot()
       .then(() => seedUsers())
-      .then((users) => seedGroups(users))
-      .then(() => seedPosts())
+      .then(users => {
+        this.users = users;
+        return seedGroups(users);
+      })
     }
 }

@@ -157,10 +157,10 @@ exports.getGroup = function(req, res) {
        
             return Post.findAll({
               where: {groupId:groupId},
-              include: {
-                model: User,
+              include: [{
+                 model: User,
                 as: 'owner'
-              }
+              }]
             })
          })
         .then(function(posts) {
@@ -188,9 +188,9 @@ exports.getGroup = function(req, res) {
                         id: post.id,
                         message: post.message,
                         owner: {
-                            id: group.owner.id,
-                            username: group.owner.username,
-                            avatarUrl: group.owner.avatarUrl
+                            id: post.owner.id,
+                            username: post.owner.username,
+                            avatarUrl: post.owner.avatarUrl
                         }
                     }
                 })
