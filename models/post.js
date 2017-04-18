@@ -9,7 +9,9 @@ module.exports = function(sequelize) {
     },
     message: {
       type: Sequelize.STRING(500)
-    }
+    },
+  }, {
+    timestamps: false
   })
 
   return Post

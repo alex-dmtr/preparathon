@@ -11,9 +11,6 @@ module.exports = function(sequelize) {
             type: Sequelize.STRING(500),
             allowNull: false
         },
-        // ownerId: {
-        //     type: Sequelize.INTEGER
-        // },
         description: {
             type: Sequelize.STRING(500),
             allowNull: false
@@ -22,9 +19,8 @@ module.exports = function(sequelize) {
             type: Sequelize.STRING,
             allowNull: false
         },
-        // memberIds: {
-        //     type: Sequelize.ARRAY(Sequelize.INTEGER)
-        // }
+    }, {
+        timestamps: false
     })
     return Group
 }

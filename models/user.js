@@ -37,8 +37,10 @@ module.exports = function(sequelize) {
         avatarUrl: Sequelize.STRING(500),
         age: Sequelize.INTEGER,
         currentProject: Sequelize.STRING(500),
-        agency: Sequelize.STRING(500)
+        agency: Sequelize.STRING(500),
+        // timestamps: false
     }, {
+      timestamps: false,
       hooks: {
         beforeCreate: function(user) {
           if (user.changed('password'))

@@ -155,7 +155,13 @@ exports.getGroup = function(req, res) {
         .then(function(group) {
             this.group = group
        
-            return Post.findAll({where: {groupId:groupId}})
+            return Post.findAll({
+              where: {groupId:groupId},
+              include: {
+                model: User,
+                as: 'owner'
+              }
+            })
          })
         .then(function(posts) {
             let group = this.group
