@@ -182,7 +182,18 @@ exports.getGroup = function(req, res) {
                     avatarUrl: user.avatarUrl
                   }
                 }),
-                posts: posts
+                // posts: posts
+                posts: posts.map((post) => {
+                    return {
+                        id: post.id,
+                        message: post.message,
+                        owner: {
+                            id: group.owner.id,
+                            username: group.owner.username,
+                            avatarUrl: group.owner.avatarUrl
+                        }
+                    }
+                })
             })            
         })
         .catch(function(err) {
