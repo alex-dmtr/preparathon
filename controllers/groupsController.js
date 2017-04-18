@@ -230,7 +230,7 @@ exports.deleteGroup = function(req, res) {
 }
 
 /*
-  Method PUT on route ‘api/group/{groupId}/add/’ - adds a member into the group. It will receive a memberId as a parameter, and it will add that memberId to the memberIds array.
+  Method PUT on route ‘api/group/{groupId}/add/{userId}’ - adds a member into the group. It will receive a memberId as a parameter, and it will add that memberId to the memberIds array.
 */
 exports.putGroupMember = function(req, res) {
   let groupId = req.params.groupId

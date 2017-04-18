@@ -19,7 +19,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var expressJwt = require('express-jwt')
 var morgan = require('morgan')
-
+var winston = require('winston')
 var jwt = require('jsonwebtoken')
 var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
 // jwtMiddleware = (req, res, next) => { next() }
@@ -35,7 +35,8 @@ app.use(bodyParser.json())
 
 // allow CORS
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');  
   res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept")
   next()
 })
