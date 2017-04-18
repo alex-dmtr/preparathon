@@ -8,7 +8,9 @@ gulp.task('seed', function() {
 
     return db
         .sync({force: true})
-        .then(() => db.seed())
+        .then(() => {
+            return db.seed()
+            })
 })
 
 

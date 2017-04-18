@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "username": "jango.fett",
+      "password": "shh",
+      "email": "jango.fett@email.com",
+      "description": "Just a simple man trying to find his way in the universe"
+    },
+    {
+      "username": "darth.vader",
+      "password": "shh",
+      "email": "darth.vader@email.com",
+      "description": "I find your lack of faith disturbing"
+    }
+  ],
+
+  "groups": [
+    { 
+      "name": "Explorers", 
+      "description": "Hiking and outdoor activities", 
+      "avatarUrl": "http://s.hswstatic.com/gif/how-to-hike-1.jpg", 
+      "owner": "jango.fett",
+      "members": [
+        "jango.fett"
+      ]
+    },
+    { 
+      "name": "Bikers", 
+      "description": "Bike enthusiast? Join in", 
+      "avatarUrl": "http://ec2-54-169-79-17.ap-southeast-1.compute.amazonaws.com/images/experiences/photo/947_1455027009.jpg",
+      "owner": "jango.fett",
+      "members": [
+        "jango.fett"
+      ]
+    },
+    { 
+      "name": "Metal fans", 
+      "description": "Newcomers welcome!", "avatarUrl": "http://www.deathmetal.org/wp-content/uploads/heavy_metal_concert-600x375.jpg",
+      "owner": "jango.fett",
+      "members": [
+        "jango.fett",
+        "darth.vader"
+      ]
+    },
+    { 
+      "name": "Star Wars fans", 
+      "description": "Patiently awaiting The Last Jedi!", 
+      "avatarUrl": "https://blogs-images.forbes.com/brandonkatz/files/2016/10/Star-Wars-1200x675.jpg?width=960",
+      "owner": "darth.vader",
+      "members": [
+        "darth.vader",
+        "jango.fett"
+      ]
+    }
+  ],
+
+  "posts": [
+
+  ]
+}

@@ -80,7 +80,16 @@ exports.getUser = function(req, res) {
     User
         .findById(userId)
         .then((result) => {
-            res.status(200).json(result)
+            res.status(200).json({
+                age: result.age,
+                agency: result.agency,
+                avatarUrl: result.avatarUrl,
+                currentProject: result.currentProject,
+                description: result.description,
+                email: result.email,
+                id: result.id,
+                username: result.username
+            })
         })
         .catch((err) => {
             res.status(404).send(err)
