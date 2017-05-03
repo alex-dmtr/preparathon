@@ -4,13 +4,19 @@
       "username": "jango.fett",
       "password": "shh",
       "email": "jango.fett@email.com",
-      "description": "Just a simple man trying to find his way in the universe"
+      "description": "Just a simple man trying to find his way in the universe",
+      "age": "24",
+      "agency": "Banking Clans",
+      "currentProject": "Creating an army of clones"
     },
     {
       "username": "darth.vader",
       "password": "shh",
       "email": "darth.vader@email.com",
-      "description": "I find your lack of faith disturbing"
+      "description": "I find your lack of faith disturbing",
+      "age": "45",
+      "agency": "The Galactic Empire",
+      "currentProject": "Finding Luke Skywalker"
     }
   ],
 
