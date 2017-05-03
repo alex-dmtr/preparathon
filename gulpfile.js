@@ -3,24 +3,28 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha')
 var app = require('./app')
 
-gulp.task('seed', function() {
+gulp.task('seed', function () {
     var db = require('./models')
 
     return db
-        .sync({force: true})
+        .sync({
+            force: true
+        })
         .then(() => {
-            return db.seed()
-            })
+            return db.seed();
+        });
 })
 
 
-gulp.task('test', ['seed'], function() {
+gulp.task('test', ['seed'], function () {
     return gulp.src('./test/**')
-        .pipe(mocha({bail: true}))
-        
+        .pipe(mocha({
+            bail: true
+        }))
+
 })
 
-gulp.task('default', function() {
+gulp.task('default', function () {
     nodemon({
         script: 'server.js',
         ext: 'js',

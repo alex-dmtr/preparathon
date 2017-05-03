@@ -13,3 +13,5 @@ You'll need a postgres server to attach to. The app is configured to connect to 
 
 ## To run app (you must run sync before):
 `npm start`
+
+Trello => https://trello.com/b/HLYqGTVL/pentalog-roadmap
