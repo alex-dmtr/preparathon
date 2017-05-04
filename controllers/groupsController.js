@@ -198,12 +198,16 @@ exports.getGroup = function (req, res) {
                     return {
                         id: post.id,
                         message: post.message,
+                        createdAt: post.createdAt,
+                        updatedAt: post.updatedAt,
                         owner: {
                             id: post.owner.id,
                             username: post.owner.username,
-                            avatarUrl: post.owner.avatarUrl
+                            avatarUrl: post.owner.avatarUrl,
                         }
                     }
+                }).sort((a, b) => {
+                    return a.createdAt - b.createdAt;
                 })
             })
         })
