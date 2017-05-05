@@ -51,13 +51,13 @@ exports.putPost = function (req, res) {
 */
 
 exports.deletePost = function (req, res) {
-  var groupId = req.params.groupId
-  var postId = req.params.postId
+  var groupId = req.params.groupId;
+  var postId = req.params.postId;
 
   Post
     .findById(postId)
     .then(function (post) {
-      return post.destroy()
+      return post.destroy();
     })
     .then(function () {
       res.status(200).send('OK')

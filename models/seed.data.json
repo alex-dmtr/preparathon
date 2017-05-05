@@ -1,6 +1,5 @@
 {
-  "users": [
-    {
+  "users": [{
       "username": "jango.fett",
       "password": "shh",
       "email": "jango.fett@email.com",
@@ -20,35 +19,34 @@
     }
   ],
 
-  "groups": [
-    { 
-      "name": "Explorers", 
-      "description": "Hiking and outdoor activities", 
-      "avatarUrl": "http://s.hswstatic.com/gif/how-to-hike-1.jpg", 
+  "groups": [{
+      "name": "Explorers",
+      "description": "Hiking and outdoor activities",
+      "avatarUrl": "http://s.hswstatic.com/gif/how-to-hike-1.jpg",
       "owner": "jango.fett",
       "members": [
         "jango.fett"
       ]
     },
-    { 
-      "name": "Bikers", 
-      "description": "Bike enthusiast? Join in", 
+    {
+      "name": "Bikers",
+      "description": "Bike enthusiast? Join in",
       "avatarUrl": "http://ec2-54-169-79-17.ap-southeast-1.compute.amazonaws.com/images/experiences/photo/947_1455027009.jpg",
       "owner": "jango.fett",
       "members": [
         "jango.fett"
       ]
     },
-    { 
-      "name": "Metal fans", 
-      "description": "Newcomers welcome!", "avatarUrl": "http://www.deathmetal.org/wp-content/uploads/heavy_metal_concert-600x375.jpg",
+    {
+      "name": "Metal fans",
+      "description": "Newcomers welcome!",
+      "avatarUrl": "https://userscontent2.emaze.com/images/53e1f370-f855-45d0-acf5-697a53f522e3/bff1bde3d30043a5edeac36a453fc65d.jpeg",
       "owner": "jango.fett",
       "members": [
         "jango.fett",
         "darth.vader"
       ],
-      "posts": [
-        {
+      "posts": [{
           "message": "Through hostile fire we will march!",
           "user": "jango.fett"
         },
@@ -58,17 +56,16 @@
         }
       ]
     },
-    { 
-      "name": "Star Wars fans", 
-      "description": "Patiently awaiting The Last Jedi!", 
-      "avatarUrl": "https://blogs-images.forbes.com/brandonkatz/files/2016/10/Star-Wars-1200x675.jpg?width=960",
+    {
+      "name": "The Wookies",
+      "description": "We Star Wars fans!",
+      "avatarUrl": "http://cdn.hiconsumption.com/wp-content/uploads/2013/07/Star-Wars-Wookies-in-Real-Life-2.jpg",
       "owner": "darth.vader",
       "members": [
         "darth.vader",
         "jango.fett"
       ],
-      "posts": [
-        {
+      "posts": [{
           "message": "No, I am your father!",
           "user": "darth.vader"
         },
