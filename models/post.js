@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-module.exports = function(sequelize) {
+module.exports = function (sequelize) {
   var Post = sequelize.define('post', {
     id: {
       type: Sequelize.INTEGER,
@@ -11,7 +11,7 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(500)
     },
   }, {
-    timestamps: false
+    timestamps: true
   })
 
   return Post

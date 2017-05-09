@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-module.exports = function(sequelize) {
+module.exports = function (sequelize) {
     var Group = sequelize.define('group', {
         id: {
             type: Sequelize.INTEGER,
