@@ -1,7 +1,6 @@
 require('dotenv').config()
 /* Add following environment variables in .env: */
-let envVars =
-[
+let envVars = [
     "DB_HOST",
     "DB_NAME",
     "DB_USERNAME",
@@ -21,31 +20,35 @@ var expressJwt = require('express-jwt')
 var morgan = require('morgan')
 var winston = require('winston')
 var jwt = require('jsonwebtoken')
-var jwtMiddleware = expressJwt({secret: process.env.JWT_SECRET})
+var jwtMiddleware = expressJwt({
+    secret: process.env.JWT_SECRET
+})
 // jwtMiddleware = (req, res, next) => { next() }
 var app = express()
 
 app.use(morgan('dev'))
 // simulate latency
 // app.use((req, res, next) => {
-//     setTimeout(next, Math.random()*1000)
-// })
-app.use(bodyParser.urlencoded({extended: true}))
+//     setTimeout(next, 1000);
+// });
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 app.use(bodyParser.json())
 
 // allow CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');  
-  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept")
-  next()
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept")
+    next()
 })
 
 // var allowCrossDomain = function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', '*');
 //     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 //     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Requested-With, Accept');
-      
+
 //     // intercept OPTIONS method
 //     if ('OPTIONS' == req.method) {
 //       res.status(200);
@@ -103,6 +106,7 @@ router.route('/group/:groupId/post/:postId')
 
 // Add endpoints for /api/users
 router.route('/users')
+    .get(usersController.getUsers)
     .post(usersController.postUsers)
 
 // Add endpoints for /api/users/{userId}
@@ -111,19 +115,19 @@ router.route('/users/:userId')
     .delete(jwtMiddleware, usersController.deleteUser)
     .get(jwtMiddleware, usersController.getUser)
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.status(200).json({
         '/api': 'API'
     })
 })
 
 app.get('/api', (req, res) => {
-  res.status(200).json({
-    '/auth': 'Authentication',
-    '/group': 'Group info & posts',
-    '/groups': 'Groups',
-    '/users': 'Users'
-  })  
+    res.status(200).json({
+        '/auth': 'Authentication',
+        '/group': 'Group info & posts',
+        '/groups': 'Groups',
+        '/users': 'Users'
+    })
 })
 app.use('/api', router)
 
