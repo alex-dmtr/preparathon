@@ -1,61 +1,14 @@
 var User = require('../models').models.user
 
-// middleware for getting the user
-exports.userParam = function (req, res, next, userId) {
-  User
-    .findById(userId)
-    .then((result) => {
-      req.user = result
-      next()
-    })
-    .catch((err) => {
-      res.status(404)
-      next(err)
-    })
-}
-
-/**
- * GET on /api/users that returns [] of users.
- * Optional search terms (query):
- * - username
- */
-exports.getUsers = function (req, res) {
-  let username = req.query.username || "";
-
-  User
-    .findAll({
-      attributes: [
-        'id', 'username', 'avatarUrl'
-      ],
-      where: {
-        username: {
-          $iLike: `%${username}%`
-        }
-      }
-    })
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(400).send(err);
-    })
-}
-// add endpoint for POST on api/users
-exports.postUsers = function (req, res) {
-  // res.status(501).send()
-
-  let user = req.body
-
-  User
-    .create(user)
-    .then((result) => {
-      res.status(201).json(result)
-    })
-    .catch((err) => {
-      console.error(err)
-      res.status(400).send(err)
-    })
+exports.postUsers = async (req, res) => {
+  try {
+    const user = await User.create(req.body)
+    res.status(201).json(user)
+  }
+  catch (err) {
+    consle.error(err)
+    res.status(400)
+  }
 }
 
 // add endpoint for PUT on api/users/{userId}
@@ -111,16 +64,10 @@ exports.getUser = function (req, res) {
   let userId = req.params.userId
 
   if (userId != req.user.id) return res.status(401).send()
-
   User
     .findById(userId)
     .then((result) => {
       res.status(200).json({
-        age: result.age,
-        agency: result.agency,
-        avatarUrl: result.avatarUrl,
-        currentProject: result.currentProject,
-        description: result.description,
         email: result.email,
         id: result.id,
         username: result.username

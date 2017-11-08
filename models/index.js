@@ -15,17 +15,7 @@ var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, proc
 })
 
 var User = require('./user')(sequelize)
-var Group = require('./group')(sequelize)
-var Post = require('./post')(sequelize)
 
-Group.belongsTo(User, {as: 'owner'})
-
-Group.belongsToMany(User, {through: 'user_group'})
-User.belongsToMany(Group, {through: 'user_group'})
-
-Post.belongsTo(User, {as: 'owner'})
-Post.belongsTo(Group, {as: 'group'})
-
-sequelize.seed = require('./seed')(User, Group, Post)
+sequelize.seed = require('./seed')(sequelize)
 
 module.exports = sequelize

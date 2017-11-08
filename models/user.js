@@ -3,55 +3,45 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10;
 var Promise = require('bluebird')
 
-function hashPassword(user) {
-  return bcrypt
-      .hash(user.password, saltRounds)
-        .then(function(hash) {
-          user.password = hash
-          return Promise.resolve()
-        })
-   
+const hashPassword = async (user) => {
+  const hash = await bcrypt.hash(user.password, saltRounds)
+  user.password = hash
 }
-module.exports = function(sequelize) {
-    var User = sequelize.define('user', {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        username: {
-            type: Sequelize.STRING(256),
-            unique: true,
-            allowNull: false
-        },
-        email: {
-            type: Sequelize.STRING(256),
-            unique: true,
-            allowNull: false
-        },
-        description: Sequelize.STRING(500),
-        password: {
-            type: Sequelize.STRING(256),
-            allowNull: false
-        },
-        avatarUrl: Sequelize.STRING(500),
-        age: Sequelize.INTEGER,
-        currentProject: Sequelize.STRING(500),
-        agency: Sequelize.STRING(500),
-        // timestamps: false
-    }, {
+
+module.exports = function (sequelize) {
+  var User = sequelize.define('user', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
+      type: Sequelize.STRING(256),
+      unique: true,
+      allowNull: false
+    },
+    email: {
+      type: Sequelize.STRING(256),
+      unique: true,
+      allowNull: false
+    },
+    password: {
+      type: Sequelize.STRING(256),
+      allowNull: false
+    },
+  }, {
       timestamps: false,
       hooks: {
-        beforeCreate: function(user) {
+        beforeCreate: function (user) {
           if (user.changed('password'))
             return hashPassword(user)
         },
-        beforeSave: function(user) {
-          if (user.changed('password')) 
+        beforeSave: function (user) {
+          if (user.changed('password'))
             return hashPassword(user)
         },
-        beforeBulkCreate: function(instances) {
-          var tasks = instances.map(function(instance) {
+        beforeBulkCreate: function (instances) {
+          var tasks = instances.map(function (instance) {
             return hashPassword(instance)
           })
 
@@ -59,5 +49,5 @@ module.exports = function(sequelize) {
         }
       }
     })
-    return User
+  return User
 }

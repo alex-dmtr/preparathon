@@ -1,4 +1,4 @@
-const app = require('./app')
+const app = require('../app')
 var https = require('https')
 var http = require('http')
 var pem = require('pem')
