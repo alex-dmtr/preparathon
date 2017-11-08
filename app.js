@@ -3,6 +3,7 @@ require('dotenv').config()
 let envVars = [
   "DB_HOST",
   "DB_NAME",
+  "DB_PORT",
   "DB_DIALECT", // 'postgres' 
   "DB_USERNAME",
   "JWT_SECRET",
