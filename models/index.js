@@ -16,6 +16,7 @@ var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, proc
 })
 
 var User = require('./user')(sequelize)
+var Story = require('./story')(sequelize)
 
 sequelize.seed = require('./seed')(sequelize)
 

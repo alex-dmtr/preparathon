@@ -72,6 +72,7 @@ app.use(jwtMiddleware)
 var apiRouter = express.Router()
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
+var storiesRouter = require('./routes/stories')
 
 apiRouter.route('/auth')
   .post(authRouter.postAuth)
@@ -84,12 +85,16 @@ apiRouter.route('/users/:userId')
   .put(authorizeMiddleware, usersRouter.putUser)
   .delete(authorizeMiddleware, usersRouter.deleteUser)
   .get(authorizeMiddleware, usersRouter.getUser)
+
+apiRouter.route('/stories')
+  .get(storiesRouter.getStories)
+  
 app.use('/api', apiRouter)
 
 app.get('/login', (req, res) => {
   res.render('login')
 })
-app.get('/', viewAuthorizeMiddleware, (req, res) => {
+app.get('/', (req, res) => {
   res.render('home')
 })
 

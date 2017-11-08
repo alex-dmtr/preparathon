@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 module.exports = function (sequelize) {
   const User = sequelize.models.user
+  const Story = sequelize.models.story
 
   return async () => {
     const rootUser = await User.create({
@@ -19,6 +20,13 @@ module.exports = function (sequelize) {
         username: user.username,
         password: user.password,
         email: user.email
+      })
+    })
+
+    const stories = await Promise.map(data.stories, story => {
+      return Story.create({
+        title: story.title,
+        content: story.content
       })
     })
   }
