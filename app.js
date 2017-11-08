@@ -3,12 +3,16 @@ require('dotenv').config()
 let envVars = [
   "DB_HOST",
   "DB_NAME",
+  "DB_DIALECT", // 'postgres' 
   "DB_USERNAME",
   "DB_PASSWORD",
   "JWT_SECRET",
   "ROOT_USERNAME",
   "ROOT_PASSWORD",
-]
+] 
+/* Optional:
+
+*/
 
 var assert = require('assert')
 
