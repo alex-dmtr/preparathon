@@ -10,12 +10,10 @@ module.exports = function (sequelize) {
     },
     title: {
       type: Sequelize.STRING(256),
-      unique: true,
       allowNull: false
     },
     content: {
-      type: Sequelize.TEXT,
-      unique: true,
+      type: Sequelize.TEXT(),
       allowNull: false
     },
   }, {
