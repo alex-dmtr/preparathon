@@ -5,13 +5,12 @@ let envVars = [
   "DB_NAME",
   "DB_DIALECT", // 'postgres' 
   "DB_USERNAME",
-  "DB_PASSWORD",
   "JWT_SECRET",
   "ROOT_USERNAME",
   "ROOT_PASSWORD",
 ] 
 /* Optional:
-
+  "DB_PASSWORD"
 */
 
 var assert = require('assert')

@@ -26,7 +26,7 @@ exports.putUser = function (req, res) {
       returning: true
     })
     .then(function (result) {
-      res.status(200).json(result[1][0])
+      res.sendStatus(200)//.json(result[1][0])
     })
     .catch(function (err) {
       throw err

@@ -67,10 +67,6 @@ context('users CRUD', function () {
       .end(function (err, result) {
         if (err) return done(err)
 
-        let res = result.body
-
-        assert.equal(user.email, res.email)
-
         done()
       })
   })
